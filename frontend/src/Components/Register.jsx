@@ -17,7 +17,7 @@ function Register(){
             toast.error("All fields are required!")
             return;
         }
-        if(password.length <= 1 ){
+        if(password.length <= 8 ){
             toast.error("Password must be above 8 characters")
             return;
         }
