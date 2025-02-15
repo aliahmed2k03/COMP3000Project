@@ -39,16 +39,16 @@ function Register(){
     }
     return (
         <div>
-            <h1 className="title">Vantage</h1>
+            <h1 className="absolute top-30 text-2xl text-white font-bold">Vantage</h1>
             <form className="register-form">
-                <input type="text" placeholder="Username" className="input-box" onChange={(e) => setUsername(e.target.value)} />
-                <input type="password" placeholder="Password" className="input-box" onChange={(e) => setPassword(e.target.value)} />
-                <input type="password" placeholder="Confirm Password" className="input-box" onChange={(e) => setConfirmedPassword(e.target.value)}/>
+                <input type="text" placeholder="Username" className="flex justify-center absolute top-50 w-53 h-10  p-3 mb-4 border border-gray-300 rounded-sm focus:outline-none focus:ring-[#D9D9D9] bg-[#D9D9D9]" onChange={(e) => setUsername(e.target.value)} />
+                <input type="password" placeholder="Password" className="flex justify-center absolute top-64 w-53 h-10  p-3 mb-4 border border-gray-300 rounded-sm focus:outline-none focus:ring-[#D9D9D9] bg-[#D9D9D9]" onChange={(e) => setPassword(e.target.value)} />
+                <input type="password" placeholder="Confirm Password" className="flex justify-center absolute top-78 w-53 h-10  p-3 mb-4 border border-gray-300 rounded-sm focus:outline-none focus:ring-[#D9D9D9] bg-[#D9D9D9]" onChange={(e) => setConfirmedPassword(e.target.value)}/>
                 <button type="submit" className="submit-btn" onClick={handleSubmit}>Submit</button>
             </form>
             <p className="login-text">Already have an account?</p>
             <a href="/login" className="login-link">Login</a>
-            <ToastContainer position="top-right" autoClose={3000} />
+            <ToastContainer position="top-right" autoClose={2000} />
     </div>
     );
 };

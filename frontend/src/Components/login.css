@@ -33,13 +33,15 @@ body {
 .submit-btn {
     background-color: #31FF6F;
     color: white;
-    padding: 10px;
+    padding: 8px;
+    width: 110px;
     font-size: 18px;
     border: none;
     border-radius: 5px;
     cursor: pointer;
-    margin-top: 10px;
-    margin-left: 20px;
+    margin-top: 240px;
+    margin-left: 50px;
+    border-radius: 10px;
 }
   
 .submit-btn:hover {
@@ -50,7 +52,7 @@ body {
     margin-top: 15px;
     font-size: 14px;
     color: #333;
-    margin-left: 36px;
+    margin-left: 10px;
 }
   
 .register-link {
