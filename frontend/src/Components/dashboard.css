@@ -1,0 +1,28 @@
+body {
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+    background-color: #01A78B;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+  
+.dashboard-title {
+    font-size: 28px;
+    font-weight: bold;
+    position: absolute;
+    top: 10px;   
+    left: 30px;
+    color: black;
+}
+
+.dashboard-page{
+    background-color: white;
+    height: 100vh;
+    width:700vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}

@@ -1,19 +1,21 @@
 import React, {useEffect, useState} from 'react';
 import axios from 'axios';  
+import Register from './Components/Register';
+import Login from './Components/Login'
+import Dashboard from './Components/Dashboard'
+import {BrowserRouter,Routes,Route} from 'react-router-dom';
 
 function App(){
-  const [message,setMessage] = useState('');
-
-  useEffect(()=> {
-    axios.get('http://localhost:5000/')
-      .then(response => setMessage(response.data))
-      .catch(error => console.error(error));
-  },[]);
   return (
-    <div>
-      <h1>{message}</h1>  
-    </div>
+    <BrowserRouter>
+      <Routes>
+        <Route path='/' element={<Register />}></Route>
+        <Route path='/login' element={<Login />}></Route>
+        <Route path='/dashboard' element={<Dashboard />}></Route>
+      </Routes>
+    </BrowserRouter>
   )
+  
 }
 
 export default App;
