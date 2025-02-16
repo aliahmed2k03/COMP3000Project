@@ -16,6 +16,7 @@ function Login(){
         .then(result => {
             console.log(result)
             if(result.data === "Successfully logged in"){
+                localStorage.setItem("username", username);
                 navigate("/dashboard")
             }else{
                 toast.error("password / username is incorrect")
