@@ -57,7 +57,7 @@ body {
   
 .register-link {
     display: block;
-    margin-top: -10px;
+    margin-top: 40px;
     color: blue;
     text-decoration: none;
     font-size: 14px;
@@ -67,5 +67,17 @@ body {
 .register-link:hover {
     text-decoration: underline;
     color: blue;
+}
+  
+.submit-btn2 {
+    background-color: #31FF6F;
+    color: white;
+    padding: 10px;
+    font-size: 18px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-top: 10px;
+    margin-left: 10px;
 }
   

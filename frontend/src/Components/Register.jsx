@@ -37,18 +37,22 @@ function Register(){
             })
             .catch(err=>console.log(err))
     }
+
+    function handleLogin() {
+        navigate("/login")
+    }
     return (
-        <div>
-            <h1 className="absolute top-30 text-2xl text-white font-bold">Vantage</h1>
-            <form className="register-form">
-                <input type="text" placeholder="Username" className="flex justify-center absolute top-50 w-53 h-10  p-3 mb-4 border border-gray-300 rounded-sm focus:outline-none focus:ring-[#D9D9D9] bg-[#D9D9D9]" onChange={(e) => setUsername(e.target.value)} />
-                <input type="password" placeholder="Password" className="flex justify-center absolute top-64 w-53 h-10  p-3 mb-4 border border-gray-300 rounded-sm focus:outline-none focus:ring-[#D9D9D9] bg-[#D9D9D9]" onChange={(e) => setPassword(e.target.value)} />
-                <input type="password" placeholder="Confirm Password" className="flex justify-center absolute top-78 w-53 h-10  p-3 mb-4 border border-gray-300 rounded-sm focus:outline-none focus:ring-[#D9D9D9] bg-[#D9D9D9]" onChange={(e) => setConfirmedPassword(e.target.value)}/>
-                <button type="submit" className="submit-btn" onClick={handleSubmit}>Submit</button>
-            </form>
-            <p className="login-text">Already have an account?</p>
-            <a href="/login" className="login-link">Login</a>
-            <ToastContainer position="top-right" autoClose={2000} />
+    <div className="flex flex-col items-center justify-center h-screen bg-[#01A78B]">
+        <h1 className="text-3xl text-white font-bold mb-4">Vantage</h1>
+        <form className="register-form w-full flex flex-col gap-4">
+            <input type="text" placeholder="Username" className="w-full p-3 focus:outline-none rounded-md bg-[#D9D9D9]" onChange={(e) => setUsername(e.target.value)} />
+            <input type="password" placeholder="Password" className="w-full p-3 focus:outline-none rounded-md bg-[#D9D9D9]" onChange={(e) => setPassword(e.target.value)} />
+            <input type="password" placeholder="Confirm Password" className="w-full p-3 focus:outline-none rounded-md bg-[#D9D9D9]" onChange={(e) => setConfirmedPassword(e.target.value)}/>
+            <button type="submit" className="w-30 p-3 !bg-[#31FF6F] text-white rounded-md hover:!bg-[#13f256] transition self-center" onClick={handleSubmit}>Submit</button>
+        </form>
+        <p className="text-gray-600 mt-4">Already have an account?</p>
+        <p className="text-blue-600 hover:underline" onClick={handleLogin}>Login</p>
+        <ToastContainer position="top-right" autoClose={2000} />
     </div>
     );
 };

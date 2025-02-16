@@ -18,24 +18,28 @@ function Login(){
             if(result.data === "Successfully logged in"){
                 navigate("/dashboard")
             }else{
-                toast.error("password/ username is incorrect")
+                toast.error("password / username is incorrect")
             }
         })
         .catch(err=>console.log(err))
     }
+    function handleRegister(){
+        navigate("/")
+    }
     return (
-        <div>
-            <h1 className="title">Vantage</h1>
-            <form className="login-form">
-            <input type="text" placeholder="Username" className="input-box" onChange={(e)=> setUsername(e.target.value)}/>
-                <input type="password" placeholder="Password" className="input-box" onChange={(e)=> setPassword(e.target.value)} />
-                <button type="submit" className="submit-btn" onClick={handleSubmit}>Submit</button>
+        <div className="flex flex-col items-center justify-center h-screen">
+            <h1 className="text-3xl text-white font-bold mb-4">Vantage</h1>
+            <form className="login-form w-full flex flex-col gap-4">
+                <input type="text" placeholder="Username" className="w-full p-3 focus:outline-none rounded-md bg-[#D9D9D9]" onChange={(e) => setUsername(e.target.value)} />
+                <input type="password" placeholder="Password" className="w-full p-3 focus:outline-none rounded-md bg-[#D9D9D9]" onChange={(e) => setPassword(e.target.value)} />
+                <button type="submit" className="w-30 p-3 !bg-[#31FF6F] text-white rounded-md hover:!bg-[#13f256] transition self-center" onClick={handleSubmit}>Submit</button>
             </form>
-            <p className="register-text">Don't have an account?</p>
-            <a href="/" className="register-link">Register</a>
-            <ToastContainer position="top-right" autoClose={3000} />
-        </div>
+            <p className="text-gray-600 mt-4">Don't have an account?</p>
+            <p className="text-blue-600 hover:underline" onClick={handleRegister}>Register</p>
+            <ToastContainer position="top-right" autoClose={2000} />
+    </div>
     )
+       
 }
 
 export default Login;
