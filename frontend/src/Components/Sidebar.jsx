@@ -26,12 +26,12 @@ export const Sidebar = () => {
              <IoMdHome className='fixed left-8 top-29 text-white group-hover:text-[#01A78B] transition ' size={"29"}/>
               Dashboard
               </li>
-            <li className='group fixed top-43 left-17 text-2xl hover:text-[#01A78B] transition cursor-pointer' onClick={handleLocation}>
-              <IoMdGlobe className='fixed left-8 top-43 text-white group-hover:text-[#01A78B] transition ' size={"29"}/>
+            <li className='group fixed top-[20%] left-17 text-2xl hover:text-[#01A78B] transition cursor-pointer' onClick={handleLocation}>
+              <IoMdGlobe className='fixed left-8 top-[20%] text-white group-hover:text-[#01A78B] transition ' size={"29"}/>
               Locations
               </li>
-            <li className='group fixed top-130 left-17 text-2xl hover:text-[#01A78B] transition cursor-pointer' onClick={handleSettings}>
-              <IoMdSettings className='fixed left-8 top-130 text-white group-hover:text-[#01A78B] transition ' size={"29"}/>
+            <li className='group fixed top-[93%] left-17 bottom-10 text-2xl hover:text-[#01A78B] transition cursor-pointer' onClick={handleSettings}>
+              <IoMdSettings className='fixed left-8 top-[93%] text-white group-hover:text-[#01A78B] transition ' size={"29"}/>
               Settings
               </li>
         </ul>
