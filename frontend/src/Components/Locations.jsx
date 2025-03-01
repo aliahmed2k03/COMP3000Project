@@ -21,7 +21,7 @@ function Location(){
             </div>
             <APIProvider apiKey="AIzaSyCZPYOASUrajNHwTK2WJO2bozseJhR0g-w">
                 <div className="w-[75%] h-[75vh] absolute top-26 left-70 rounded-lg">
-                <Map zoom={18} defaultCenter={london} options={{gestureHandling: "greedy",  zoomControl: false, streetViewControl: false,  fullscreenControl: false}}> 
+                <Map defaultZoom={14} defaultCenter={london} options={{gestureHandling: "greedy",  zoomControl: true, streetViewControl: false,  fullscreenControl: false}}> 
                 </Map>
                 </div>
             </APIProvider>

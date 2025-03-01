@@ -44,12 +44,12 @@ app.post('/register',async (req,res) => {
 });
 
 app.get('/scrapeZoopla',async (req,res)=>{
-    const url = "https://www.zoopla.co.uk/for-sale/details/66154965/?search_identifier=d596ed4ede7f8b13259e087cd518478b33e4ac98156a80ea577e24746240c890&featured=1&utm_content=featured_listing"
+    const url = "https://www.zoopla.co.uk/for-sale/details/69533334/?search_identifier=8ccaefaa942917ee9b9188175b9337553f9224dd15f5e871d15a0a6bb10f2619"
     try{
         console.log("grabbing house address and price...")
         const browser = await puppeteer.launch({ headless: true});
         const page = await browser.newPage();
-        await page.setUserAgent('Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/110.0.0.0 Safari/537.36');
+        await page.setUserAgent('Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 Chrome/110.0.0.0 Safari/537.36');
         await page.goto(url, { waitUntil: 'networkidle2' });
         const address = await page.$eval('address._1olqsf98', el => el.textContent.trim());
         const price = await page.$eval('p._194zg6t3.r4q9to1', el => el.textContent.trim());
@@ -59,17 +59,39 @@ app.get('/scrapeZoopla',async (req,res)=>{
             const bathtext = elements.find(el => el.textContent.includes('bath'))
             return bathtext ? bathtext.textContent.trim(): null;
         });
+        const image = await page.evaluate(()=>{
+            const gallerySlide = document.querySelector('li[data-key="gallery-slide-0"] source');
+            return gallerySlide ? gallerySlide.getAttribute('srcset') : null;
+        });
+        imageUrl = image.substring(0, image.indexOf('.jpg') + 4);
         await browser.close();
-        console.log({ address, price , estate,beds,baths})
-        res.json({ address, price , estate,beds,baths});
+        console.log({ address, price , estate,beds,baths,imageUrl})
+        res.json({ address, price , estate,beds,baths,imageUrl});
     }catch(error){
-        console.log("Error",error.message);
-        res.status(500).json({ error: "Failed to scrape data" });
+        console.log("grabbing house address and price...")
+        const browser = await puppeteer.launch({ headless: true});
+        const page = await browser.newPage();
+        await page.setUserAgent('Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 Chrome/110.0.0.0 Safari/537.36');
+        await page.goto(url, { waitUntil: 'networkidle2' });
+        const address = await page.$eval('address._1uw1x3v8', el => el.textContent.trim());
+        const price = await page.$eval('p._194zg6t3.r4q9to1', el => el.textContent.trim());
+        const estate = await page.$eval('p._194zg6t7._133vwz72', el => el.textContent.trim());
+        const beds = await page.$eval("p._194zg6t8._1wmbmfq3", el => el.textContent.trim());
+        const baths = await page.$$eval("p._194zg6t8._1wmbmfq3",elements =>{
+            const bathtext = elements.find(el => el.textContent.includes('bath'))
+            return bathtext ? bathtext.textContent.trim(): null;
+        });
+        const image = await page.evaluate(()=>{
+            const gallerySlide = document.querySelector('li[data-key="gallery-slide-0"] source');
+            return gallerySlide ? gallerySlide.getAttribute('srcset') : null;
+        });
+        imageUrl = image.substring(0, image.indexOf('.jpg') + 4);
+        await browser.close();
+        console.log({ address, price , estate,beds,baths,imageUrl})
+        res.json({ address, price , estate,beds,baths,imageUrl});
     }
 }); 
     
-    
-
 
 app.listen(5000, ()=>{
     console.log('Server is running on 5000');
