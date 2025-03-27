@@ -6,18 +6,21 @@ import Dashboard from './Components/Dashboard'
 import Locations from './Components/Locations'
 import {BrowserRouter,Routes,Route} from 'react-router-dom';
 import Settings from './Components/Settings';
+import { HouseProvider } from './Components/ItemContext';
 
 function App(){
   return (
-    <BrowserRouter>
-      <Routes>
-        <Route path='/' element={<Register />}></Route>
-        <Route path='/login' element={<Login />}></Route>
-        <Route path='/Dashboard' element={<Dashboard />}></Route>
-        <Route path='/Location' element={<Locations />}></Route>
-        <Route path='/Settings' element={<Settings />}></Route>
-      </Routes>
-    </BrowserRouter>
+    <HouseProvider>
+      <BrowserRouter>
+        <Routes>
+          <Route path='/' element={<Register />}></Route>
+          <Route path='/login' element={<Login />}></Route>
+          <Route path='/Dashboard' element={<Dashboard />}></Route>
+          <Route path='/Location' element={<Locations />}></Route>
+          <Route path='/Settings' element={<Settings />}></Route>
+        </Routes>
+      </BrowserRouter>
+    </HouseProvider>
   )
   
 }

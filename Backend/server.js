@@ -43,8 +43,12 @@ app.post('/register',async (req,res) => {
     }
 });
 
-app.get('/scrapeZoopla',async (req,res)=>{
-    const url = "https://www.zoopla.co.uk/for-sale/details/69533334/?search_identifier=8ccaefaa942917ee9b9188175b9337553f9224dd15f5e871d15a0a6bb10f2619"
+app.post('/scrapeZoopla',async (req,res)=>{
+    const {url} = req.body;
+    console.log("reached api")
+    if(!url){
+        return res.status(400).json({error: "Invalid URL"})
+    }
     try{
         console.log("grabbing house address and price...")
         const browser = await puppeteer.launch({ headless: true});
