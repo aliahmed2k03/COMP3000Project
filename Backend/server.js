@@ -42,6 +42,45 @@ app.post('/register',async (req,res) => {
         return res.status(500).json({ error: err.message });
     }
 });
+app.delete("/deleteHouse", async (req, res) => {
+    const User = require('./models/Users'); 
+    const { username, address } = req.body;
+    try {
+      const user = await User.findOne({ username });
+      if (!user) {
+        return res.status(404).send("User not found");
+      }
+      user.houses = user.houses.filter(house => house.address !== address);
+      await user.save();
+      console.log("deleted succesfully")
+      res.status(200).send("House deleted");
+    } catch (err) {
+      console.error(err);
+      res.status(500).send("Error deleting house");
+    }
+  });
+app.post('/addhouse',async (req,res)=>{
+    const {username, house} = req.body;
+    try{
+        const user= await UserModel.findOne({username});
+        if (!user) return res.status(404).json({error: "User not Found"});
+        user.houses.push(house);
+        await user.save();
+        res.json({message:"house added succesfully", house})
+    } catch (err){
+        res.status(500).json({error:err.message});
+    }    
+});
+
+app.get('/Houses/:username', async (req,res)=>{
+    try {
+        const user = await UserModel.findOne({username: req.params.username});
+        if (!user) return res.status(404).json({error: "User not Found"});
+        res.json(user.houses);
+    }catch(err){
+        res.status(500).json({error:err.message});
+    }
+});
 
 app.post('/scrapeZoopla',async (req,res)=>{
     const {url} = req.body;
@@ -54,8 +93,17 @@ app.post('/scrapeZoopla',async (req,res)=>{
         const browser = await puppeteer.launch({ headless: true});
         const page = await browser.newPage();
         await page.setUserAgent('Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 Chrome/110.0.0.0 Safari/537.36');
-        await page.goto(url, { waitUntil: 'networkidle2' });
-        const address = await page.$eval('address._1olqsf98', el => el.textContent.trim());
+        await page.goto(url, { waitUntil: 'domcontentloaded' });
+        const addressSelectors = ['address._1olqsf98', 'address._1uw1x3v8', 'address._1kxlhi2a'];
+        let address = null;
+        for (const selector of addressSelectors) {
+            address = await page.$eval(selector, el => el.textContent.trim()).catch(() => null);
+            if (address) break;
+        }
+        if (!address) {
+            console.warn("No address found with any selector.");
+            address = "Address not available"; 
+        }
         const price = await page.$eval('p._194zg6t3.r4q9to1', el => el.textContent.trim());
         const estate = await page.$eval('p._194zg6t7._133vwz72', el => el.textContent.trim());
         const beds = await page.$eval("p._194zg6t8._1wmbmfq3", el => el.textContent.trim());
@@ -67,32 +115,18 @@ app.post('/scrapeZoopla',async (req,res)=>{
             const gallerySlide = document.querySelector('li[data-key="gallery-slide-0"] source');
             return gallerySlide ? gallerySlide.getAttribute('srcset') : null;
         });
-        imageUrl = image.substring(0, image.indexOf('.jpg') + 4);
+        if(image.includes('.png')){
+            imageUrl = image.substring(0, image.indexOf('.png') + 4);
+        }else{
+            imageUrl = image.substring(0, image.indexOf('.jpg') + 4);
+        }
+
         await browser.close();
-        console.log({ address, price , estate,beds,baths,imageUrl})
-        res.json({ address, price , estate,beds,baths,imageUrl});
+        console.log({ address, price , estate,beds,baths,imageUrl,url})
+        res.json({ address, price , estate,beds,baths,imageUrl,url});
     }catch(error){
-        console.log("grabbing house address and price...")
-        const browser = await puppeteer.launch({ headless: true});
-        const page = await browser.newPage();
-        await page.setUserAgent('Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 Chrome/110.0.0.0 Safari/537.36');
-        await page.goto(url, { waitUntil: 'networkidle2' });
-        const address = await page.$eval('address._1uw1x3v8', el => el.textContent.trim());
-        const price = await page.$eval('p._194zg6t3.r4q9to1', el => el.textContent.trim());
-        const estate = await page.$eval('p._194zg6t7._133vwz72', el => el.textContent.trim());
-        const beds = await page.$eval("p._194zg6t8._1wmbmfq3", el => el.textContent.trim());
-        const baths = await page.$$eval("p._194zg6t8._1wmbmfq3",elements =>{
-            const bathtext = elements.find(el => el.textContent.includes('bath'))
-            return bathtext ? bathtext.textContent.trim(): null;
-        });
-        const image = await page.evaluate(()=>{
-            const gallerySlide = document.querySelector('li[data-key="gallery-slide-0"] source');
-            return gallerySlide ? gallerySlide.getAttribute('srcset') : null;
-        });
-        imageUrl = image.substring(0, image.indexOf('.jpg') + 4);
-        await browser.close();
-        console.log({ address, price , estate,beds,baths,imageUrl})
-        res.json({ address, price , estate,beds,baths,imageUrl});
+        console.error("Scraping error:", error);
+        res.status(500).json({ error: "Failed to scrape Zoopla" });
     }
 }); 
     
