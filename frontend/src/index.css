@@ -77,3 +77,21 @@ button:focus-visible {
     background-color: #f9f9f9;
   }
 }
+
+.react-datepicker {
+  width: auto !important;
+  min-width: 320px;
+  display: flex !important;
+  flex-direction: row !important;
+  align-items: stretch;
+}
+
+.react-datepicker__time-container {
+  width: 100px;
+  border-left: 1px solid #ccc;
+  flex-shrink: 0;
+}
+
+.react-datepicker__time {
+  width: 100%;
+}

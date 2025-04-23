@@ -7,8 +7,9 @@ const HouseSchema = new mongoose.Schema({
     beds: String,
     baths: String,
     imageUrl: String,
-    url: String
-
+    url: String,
+    viewingTime: Date,
+    consideration: String
 })
 
 const UserSchema = new mongoose.Schema({

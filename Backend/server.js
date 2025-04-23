@@ -81,6 +81,53 @@ app.get('/Houses/:username', async (req,res)=>{
         res.status(500).json({error:err.message});
     }
 });
+app.post("/ViewingTime", async (req, res) => {
+    const { username, address, viewingTime } = req.body;
+    try {
+        const user = await UserModel.findOne({ username });
+        if (!user) return res.status(404).send("User not found");
+        const house = user.houses.find(h => h.address === address);
+        if (!house) return res.status(404).send("House not found");
+        house.viewingTime = viewingTime;
+        await user.save();
+        console.log("viewing time saved"+house.viewingTime)
+        res.status(200).send("Viewing time updated: "+house.viewingTime);
+    } catch (err) {
+        console.error(err);
+        res.status(500).send("Error saving viewing time");
+    }
+});
+
+app.post("/Consideration", async (req, res) => {
+    const { username, address, consideration } = req.body;
+    try {
+        const user = await UserModel.findOne({ username });
+        if (!user) return res.status(404).send("User not found");
+        const house = user.houses.find(h => h.address === address);
+        if (!house) return res.status(404).send("House not found");
+        house.consideration = consideration;
+        await user.save();
+        console.log("consideration updated "+house.consideration)
+        res.status(200).send("Consideration updated: "+house.consideration);
+    } catch (err) {
+        console.error(err);
+        res.status(500).send("Error saving consideration");
+    }
+});
+app.post("/clearDashboard", async (req, res) => {
+    const { username } = req.body;
+    try {
+        const user = await UserModel.findOne({ username });
+        if (!user) return res.status(404).send("User not found");
+        user.houses = [];
+        await user.save();
+        console.log(`Cleared houses for ${username}`);
+        res.status(200).send("All houses cleared");
+    } catch (err) {
+        console.error(err);
+        res.status(500).send("Error clearing houses");
+    }
+});
 
 app.post('/scrapeZoopla',async (req,res)=>{
     const {url} = req.body;
