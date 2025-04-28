@@ -11,7 +11,7 @@ import { ToastContainer, toast } from "react-toastify";
 
 function Dashboard(){
     const navigate= useNavigate();
-    const {houses,addHouse,removeHouse, loadUserHouses} = useItemContext();
+    const {houses,addHouse,removeHouse, loadUserHouses,setHouses} = useItemContext();
     const [overlay,setOverlay] = useState(false);
     const [zooplaUrl,setZooplaUrl] = useState("");
     const [loading,setLoading] = useState(false);
@@ -67,8 +67,11 @@ function Dashboard(){
             await axios.post("http://localhost:5000/ViewingTime",{
                 username,address: selectedHouse.address,viewingTime
             })
-            selectedHouse.viewingTime = viewingTime
-            setSelectedHouse({ ...selectedHouse });
+            setHouses(prevHouses => prevHouses.map(house =>
+                house.address === selectedHouse.address
+                    ? { ...house, viewingTime: viewingTime }
+                    : house
+            ));
             toast.success("Succesfully added viewing time")
         } catch (err) {
             console.error("Failed to save viewing time", err);
@@ -81,8 +84,11 @@ function Dashboard(){
             await axios.post("http://localhost:5000/Consideration",{
                 username,address: selectedHouse.address,consideration
             })
-            selectedHouse.consideration = consideration
-            setSelectedHouse({ ...selectedHouse});
+            setHouses(prevHouses => prevHouses.map(house =>
+                house.address === selectedHouse.address
+                    ? { ...house, consideration: consideration }
+                    : house
+            ));
             toast.success("Succesfully added consideration")
         } catch (err) {
             console.error("Failed to save consideration", err);
@@ -154,7 +160,7 @@ function Dashboard(){
                         <span className="text-3xl mt-1 text-center py-3 text-black">{selectedHouse.price}</span>
                         <div className="absolute top-68 left-200">
                             <label className="block font-semibold mb-1">Set Viewing Time:</label>
-                            <DatePicker selected={viewingTime} onChange={(date) => setViewingTime(date)} showTimeSelect dateFormat="Pp" popperPlacement="bottom-start"   minDate={new Date()} minTime={getMinTime(viewingTime)} maxTime={new Date(0, 0, 0, 23, 59)} className="border border-gray-300 rounded px-3 py-2 w-full"/>
+                            <DatePicker selected={viewingTime} onChange={(date) => setViewingTime(date)} showTimeSelect dateFormat="dd/MM/yyyy" popperPlacement="bottom-start"   minDate={new Date()} minTime={getMinTime(viewingTime)} maxTime={new Date(0, 0, 0, 23, 59)} className="border border-gray-300 rounded px-3 py-2 w-full"/>
                             <button className="mt-3 !bg-blue-600 hover:!bg-blue-700 text-white px-4 py-2 rounded-lg" onClick={handleViewingTime}>Save Viewing Time</button>
                         </div>
                         <div className="mt-4 absolute top-95 left-200">

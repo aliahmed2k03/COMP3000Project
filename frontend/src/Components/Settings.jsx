@@ -12,6 +12,7 @@ function Settings(){
     const navigate = useNavigate();
     const [username,setUsername] = useState("");
     const [confirmation,setConfirmation] = useState(false)
+    const {setHouses} = useItemContext();
 
     useEffect(()=>{
         const storedusername = localStorage.getItem("username")
@@ -27,7 +28,9 @@ function Settings(){
         try {
             console.log("reached");
             await axios.post("http://localhost:5000/clearDashboard", { username });
+            setHouses([]);
             toast.success("Dashboard cleared successfully");
+            
         } catch (err) {
             console.error("Error clearing dashboard:", err);
             toast.error("Failed to clear dashboard");

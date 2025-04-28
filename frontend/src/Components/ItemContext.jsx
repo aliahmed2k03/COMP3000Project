@@ -31,7 +31,7 @@ export const HouseProvider = ({ children}) =>{
     };
     
     return (
-        <ItemContext.Provider value={{houses,addHouse,removeHouse,loadUserHouses}}>
+        <ItemContext.Provider value={{houses,addHouse,removeHouse,loadUserHouses,setHouses}}>
             {children}
         </ItemContext.Provider>
     );
